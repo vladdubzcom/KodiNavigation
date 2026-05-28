@@ -1,6 +1,6 @@
 {
-  "name": "kodicomponents/navigation",
-  "description": "The KodiCMS Support package.",
+  "name": "vladdubzcom/KodiNavigation",
+  "description": "The KodiCMS Support package. Fork for php8.4",
   "homepage": "http://kodicms.com",
   "keywords": [
     "laravel",
