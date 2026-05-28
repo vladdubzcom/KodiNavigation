@@ -25,10 +25,12 @@ class PageCollection extends Collection
         foreach ($this->items as $page) {
             if ($page->getId() == $id) {
                 return $page;
-            } else if ($found = $page->getPages()->findById($id)) {
+            } elseif ($found = $page->getPages()->findById($id)) {
                 return $found;
             }
         }
+
+        return null;
     }
 
     /**
@@ -42,10 +44,12 @@ class PageCollection extends Collection
         foreach ($this->items as $page) {
             if (implode($separator, $page->getPath()) == $path) {
                 return $page;
-            } else if ($found = $page->getPages()->findByPath($path, $separator)) {
+            } elseif ($found = $page->getPages()->findByPath($path, $separator)) {
                 return $found;
             }
         }
+
+        return null;
     }
 
     /**

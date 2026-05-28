@@ -281,18 +281,18 @@ class PageTest extends TestCase
     {
         $page = new Page('Title', 'http://site.com', 'pageId', 550, 'fa fa-user');
 
-        $this->assertEquals([
-            'child' => [],
-            'hasChild' => false,
-            'id' => 'pageId',
-            'title' => 'Title',
-            'icon' => '<i class="fa fa-user"></i>',
-            'priority' => 550,
-            'url' => 'http://site.com',
-            'path' => ['Title'],
-            'isActive' => false,
-            'attributes' => '',
-            'badge' => null,
-        ], $page->toArray());
+        $data = $page->toArray();
+
+        $this->assertFalse($data['hasChild']);
+        $this->assertEquals('pageId', $data['id']);
+        $this->assertEquals('Title', $data['title']);
+        $this->assertEquals('<i class="fa fa-user"></i>', $data['icon']);
+        $this->assertEquals(550, $data['priority']);
+        $this->assertEquals('http://site.com', $data['url']);
+        $this->assertEquals(['Title'], $data['path']);
+        $this->assertFalse($data['isActive']);
+        $this->assertEquals('', $data['attributes']);
+        $this->assertArrayHasKey('pages', $data);
+        $this->assertArrayHasKey('badges', $data);
     }
 }

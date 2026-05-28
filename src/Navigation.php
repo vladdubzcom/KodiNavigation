@@ -27,12 +27,12 @@ class Navigation implements NavigationInterface
                 if ($value instanceof BadgeInterface) {
                     $page->setBadge($value);
                     continue;
-                } else if (!is_array($value)) {
+                } elseif (!is_array($value)) {
                     $value = [$value];
                 }
 
                 call_user_func_array([$page, 'addBadge'], $value);
-            } else if ($key != 'pages' and method_exists($page, $method = 'set'.ucfirst($key))) {
+            } elseif ($key != 'pages' and method_exists($page, $method = 'set'.ucfirst($key))) {
                 $page->{$method}($value);
             }
         }
@@ -71,7 +71,7 @@ class Navigation implements NavigationInterface
      *
      * @param array|null $pages
      */
-    public function __construct(array $pages = null)
+    public function __construct(?array $pages = null)
     {
         $this->items = new PageCollection();
 
@@ -297,9 +297,8 @@ class Navigation implements NavigationInterface
         }
 
         if (config('navigation.aliases')) {
-            $this->findActiveByAliases(
-                ltrim(parse_url($url, PHP_URL_PATH), '/')
-            );
+            $path = parse_url($url, PHP_URL_PATH);
+            $this->findActiveByAliases(ltrim(is_string($path) ? $path : '', '/'));
         }
 
         return false;
@@ -313,9 +312,11 @@ class Navigation implements NavigationInterface
     {
         $this->getPages()->each(function (PageInterface $page) use ($url, &$foundPages) {
 
-            if (strpos($url, $page->getUrl()) !== false) {
+            $pageUrl = $page->getUrl();
+
+            if (is_string($pageUrl) && $pageUrl !== '' && strpos($url, $pageUrl) !== false) {
                 $foundPages[] = [
-                    levenshtein(substr($url, 0, 255), substr($page->getUrl(), 0, 255)),
+                    levenshtein(substr($url, 0, 255), substr($pageUrl, 0, 255)),
                     $page,
                 ];
             }

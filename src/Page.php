@@ -227,7 +227,7 @@ class Page extends Navigation implements PageInterface
      */
     public function getUrl()
     {
-        if (strpos($this->url, '://') !== false) {
+        if (is_string($this->url) && strpos($this->url, '://') !== false) {
             return $this->url;
         }
 
@@ -316,7 +316,7 @@ class Page extends Navigation implements PageInterface
      *
      * @return $this
      */
-    public function addBadge($value, array $attributes = null)
+    public function addBadge($value, ?array $attributes = null)
     {
         $this->setBadge(
             $badge = app(BadgeInterface::class)

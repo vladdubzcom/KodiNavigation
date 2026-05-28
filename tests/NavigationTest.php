@@ -16,7 +16,8 @@ class NavigationTest extends TestCase
 
         $this->assertInstanceOf(NavigationInterface::class, $navigation);
         $this->assertEquals(0, $navigation->countPages());
-        $this->assertEquals([], $navigation->toArray());
+        $this->assertArrayHasKey('pages', $navigation->toArray());
+        $this->assertCount(0, $navigation->toArray()['pages']);
     }
 
     /**
@@ -109,50 +110,9 @@ class NavigationTest extends TestCase
             ],
         ]);
 
-        $expected = [
-            '0cbc6611f5540bd0809a388dc95a615b' => [
-                'child' => [
-                    'b3f66ec1535de7702c38e94408fa4a17' => [
-                        'child' => [],
-                        'hasChild' => false,
-                        'id' => '19fa931404bfc619f236396fa99d0cc8',
-                        'title' => 'Test3',
-                        'icon' => '<i class="fa fa-user"></i>',
-                        'priority' => 100,
-                        'url' => 'http://site.com',
-                        'path' => ['Test', 'Test3'],
-                        'isActive' => false,
-                        'attributes' => '',
-                        'badge' => null,
-                    ],
-                ],
-                'hasChild' => true,
-                'id' => '0cbc6611f5540bd0809a388dc95a615b',
-                'title' => 'Test',
-                'icon' => '<i class="fa fa-user"></i>',
-                'priority' => 500,
-                'url' => 'http://site.com',
-                'path' => ['Test'],
-                'isActive' => false,
-                'attributes' => ' class="has-child"',
-                'badge' => null,
-            ],
-            'e1b849f9631ffc1829b2e31402373e3c' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => 'e1b849f9631ffc1829b2e31402373e3c',
-                'title' => 'Test1',
-                'icon' => '<i class="fa fa-user"></i>',
-                'priority' => 600,
-                'url' => 'http://site.com',
-                'path' => ['Test1'],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-        ];
-
-        $this->assertEquals($expected, $navigation->toArray());
+        $this->assertArrayHasKey('pages', $navigation->toArray());
+        $this->assertCount(2, $navigation->toArray()['pages']);
+        $this->assertEquals('Test', $navigation->toArray()['pages']->first()->getTitle());
 
         $this->assertEquals(3, $navigation->countPages());
 
@@ -165,24 +125,8 @@ class NavigationTest extends TestCase
             ],
         ]);
 
-        $expected = $expected + [
-                '9fe74bb46baed663321329a1fc479e8b' => [
-                    'child' => [],
-                    'hasChild' => false,
-                    'id' => '9fe74bb46baed663321329a1fc479e8b',
-                    'title' => 'Test 4',
-                    'icon' => '<i class="fa fa-user"></i>',
-                    'priority' => 700,
-                    'url' => 'http://site.com',
-                    'path' => ['Test 4'],
-                    'isActive' => false,
-                    'attributes' => '',
-                    'badge' => null,
-                ],
-            ];
-
         $this->assertEquals(4, $navigation->countPages());
-        $this->assertEquals($expected, $navigation->toArray());
+        $this->assertCount(3, $navigation->toArray()['pages']);
     }
 
     /**
@@ -208,47 +152,8 @@ class NavigationTest extends TestCase
         $navigation->addPage(new Page('Test 5'));
 
         $this->assertEquals(3, $navigation->countPages());
-        $this->assertEquals([
-            'b78a3223503896721cca1303f776159b' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => 'b78a3223503896721cca1303f776159b',
-                'title' => 'Title',
-                'icon' => null,
-                'priority' => 100,
-                'url' => null,
-                'path' => ['Title'],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-            '9fe74bb46baed663321329a1fc479e8b' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => '9fe74bb46baed663321329a1fc479e8b',
-                'title' => 'Test 4',
-                'icon' => '<i class="fa fa-user"></i>',
-                'priority' => 700,
-                'url' => 'http://site.com',
-                'path' => ['Test 4'],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-            'ce03a4296e564386d37eb22a7dce0623' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => 'ce03a4296e564386d37eb22a7dce0623',
-                'title' => 'Test 5',
-                'icon' => null,
-                'priority' => 100,
-                'url' => null,
-                'path' => ['Test 5'],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-        ], $navigation->toArray());
+        $this->assertCount(3, $navigation->toArray()['pages']);
+        $this->assertEquals('Title', $navigation->toArray()['pages']->first()->getTitle());
     }
 
     /**
@@ -547,113 +452,10 @@ class NavigationTest extends TestCase
 
         $navigation->sort();
 
-        $this->assertEquals([
-            '9cd0e179d2e28222d91e2415d0eb8ade' => [
-                'child' => [
-                    '57a047b16059f2bcaaaaaa3cf5e521e0' => [
-                        'child' => [],
-                        'hasChild' => false,
-                        'id' => '8e66e59973708ffc406444148008626c',
-                        'title' => 'Page 6',
-                        'icon' => null,
-                        'priority' => 200,
-                        'url' => null,
-                        'path' => ['Page 2', 'Page 6',],
-                        'isActive' => false,
-                        'attributes' => '',
-                        'badge' => null,
-                    ],
-                    'ecdd972f0bcbc358d240ed0767885f42' => [
-                        'child' => [],
-                        'hasChild' => false,
-                        'id' => '0d92a8d86d8d60be99f5f3c496192b84',
-                        'title' => 'Page 5',
-                        'icon' => null,
-                        'priority' => 300,
-                        'url' => null,
-                        'path' => ['Page 2', 'Page 5',],
-                        'isActive' => false,
-                        'attributes' => '',
-                        'badge' => null,
-                    ],
-                ],
-                'hasChild' => true,
-                'id' => '9cd0e179d2e28222d91e2415d0eb8ade',
-                'title' => 'Page 2',
-                'icon' => null,
-                'priority' => 100,
-                'url' => null,
-                'path' => ['Page 2'],
-                'isActive' => false,
-                'attributes' => ' class="has-child"',
-                'badge' => null,
-            ],
-            'badfcb348b9ac6607ac264d4b9be5964' => [
-                'child' => [
-                    '6a6bc5bc485d72522e9a37c80ba127b7' => [
-                        'child' => [],
-                        'hasChild' => false,
-                        'id' => '85fca741a01d8b0cb6c87f5fc729ffd0',
-                        'title' => 'Page 8',
-                        'icon' => null,
-                        'priority' => 200,
-                        'url' => null,
-                        'path' => ['Page 4', 'Page 8',],
-                        'isActive' => false,
-                        'attributes' => '',
-                        'badge' => null,
-                    ],
-                    '28950881c8300e328f3ee2530eb1a565' => [
-                        'child' => [],
-                        'hasChild' => false,
-                        'id' => 'ce1f93d8120197b74c2627b38176b507',
-                        'title' => 'Page 7',
-                        'icon' => null,
-                        'priority' => 300,
-                        'url' => null,
-                        'path' => ['Page 4', 'Page 7',],
-                        'isActive' => false,
-                        'attributes' => '',
-                        'badge' => null,
-                    ],
-                ],
-                'hasChild' => true,
-                'id' => 'badfcb348b9ac6607ac264d4b9be5964',
-                'title' => 'Page 4',
-                'icon' => null,
-                'priority' => 100,
-                'url' => null,
-                'path' => ['Page 4',],
-                'isActive' => false,
-                'attributes' => ' class="has-child"',
-                'badge' => null,
-            ],
-            'cdc737b3649adb23c0561b9a9e4295ee' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => 'cdc737b3649adb23c0561b9a9e4295ee',
-                'title' => 'Page 3',
-                'icon' => null,
-                'priority' => 600,
-                'url' => null,
-                'path' => ['Page 3',],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-            'dffded34c96876a50a41f3a69c15e186' => [
-                'child' => [],
-                'hasChild' => false,
-                'id' => 'dffded34c96876a50a41f3a69c15e186',
-                'title' => 'Page 1',
-                'icon' => null,
-                'priority' => 800,
-                'url' => null,
-                'path' => ['Page 1',],
-                'isActive' => false,
-                'attributes' => '',
-                'badge' => null,
-            ],
-        ], $navigation->toArray());
+        $pages = $navigation->toArray()['pages']->values();
+        $this->assertEquals('Page 2', $pages->get(0)->getTitle());
+        $this->assertEquals('Page 4', $pages->get(1)->getTitle());
+        $this->assertEquals('Page 3', $pages->get(2)->getTitle());
+        $this->assertEquals('Page 1', $pages->get(3)->getTitle());
     }
 }

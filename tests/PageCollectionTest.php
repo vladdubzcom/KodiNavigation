@@ -21,11 +21,9 @@ class PageCollectionTest extends TestCase
         });
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testPushException()
     {
+        $this->expectException(InvalidArgumentException::class);
         $collection = (new Page('Page'))->getPages();
         $collection->push('test');
     }
@@ -46,11 +44,9 @@ class PageCollectionTest extends TestCase
         });
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testPrependException()
     {
+        $this->expectException(InvalidArgumentException::class);
         $collection = (new Page('Page'))->getPages();
         $collection->prepend('test', 'test');
     }
